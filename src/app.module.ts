@@ -1,9 +1,9 @@
 import {Module} from '@nestjs/common';
 import {UsersModule} from './users/users.module';
-import {StravaModule} from './strava/strava.module';
+import {RunningModule} from './running/running.module';
 
 @Module({
-  imports: [UsersModule, StravaModule],
+  imports: [UsersModule, RunningModule],
   controllers: [],
   providers: [],
 })
