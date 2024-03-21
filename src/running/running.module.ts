@@ -9,7 +9,7 @@ import {GetStravaAthleteForUserService} from './services/strava/get_strava_athle
 import {GetGearDetailsService} from './services/strava/get_gear_details.service';
 import {UpdateActivitiesForStravaUserService} from './services/update_user_activities.service';
 import {GetGearForUserService} from './services/strava/get_gear_for_user.service';
-import {GetOldestKnownActivitityForUserService} from './services/strava/get_last_activity_for_user.service';
+import {GetOldestKnownActivitityForUserService} from './services/strava/get_last_known_activity_for_user.service';
 
 @Module({
   controllers: [StravaAccessController, StravaActivitiesController],

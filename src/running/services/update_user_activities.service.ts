@@ -5,21 +5,24 @@ import {eq} from 'drizzle-orm';
 import {stravaActivities} from 'src/db/schema';
 import {convertStravaApiActivityToModel} from './converters/convert_strava_api_activity_to_model';
 import {lookupLocationByLatLng} from './utility/lookup_location_by_lat_lng';
-import {GetOldestKnownActivitityForUserService} from './strava/get_last_activity_for_user.service';
+import {GetLastKnownActivitityForUserService} from './strava/get_last_known_activity_for_user.service';
 
 @Injectable()
 export class UpdateActivitiesForStravaUserService {
   constructor(
     private drizzle: DrizzleService,
     private getNextActivities: GetStravaActivitiesForUserService,
-    private getOldestActivity: GetOldestKnownActivitityForUserService,
+    private getLastKnownActivity: GetLastKnownActivitityForUserService,
   ) {}
 
   async update(user_id: number) {
-    const oldestKnowActivity = await this.getOldestActivity.get(user_id);
-    const oldestDate = oldestKnowActivity ? new Date(oldestKnowActivity.start_date) : new Date();
+    const lastKnownActivity = await this.getLastKnownActivity.get(user_id);
+    const lastKnownDate = lastKnownActivity ? new Date(lastKnownActivity.start_date) : undefined;
 
-    const stravaActivityList = await this.getNextActivities.get(user_id, 100, oldestDate);
+    const stravaActivityList = await this.getNextActivities.get(user_id, {
+      count: 100,
+      after: lastKnownDate,
+    });
 
     const values = (
       await Promise.all(
