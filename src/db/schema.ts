@@ -67,6 +67,7 @@ export const stravaActivities = pgTable(
   },
   (stravaActivities) => {
     return {
+      userIdIndex: index('user_id_idx').on(stravaActivities.userId),
       stravaIdIndex: uniqueIndex('strava_id_idx').on(stravaActivities.strava_id),
       latLonIndex: index('lat_lon_idx').on(stravaActivities.start_lat, stravaActivities.start_lng),
     };
